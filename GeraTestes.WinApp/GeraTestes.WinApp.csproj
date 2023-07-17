@@ -8,4 +8,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentResults" Version="3.15.2" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GeraTestes.Aplicacao\GeraTestes.Aplicacao.csproj" />
+    <ProjectReference Include="..\GeraTestes.Infra\GeraTestes.Infra.Sql.csproj" />
+  </ItemGroup>
+
 </Project>
