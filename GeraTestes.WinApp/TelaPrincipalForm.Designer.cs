@@ -78,6 +78,7 @@
             disciplinaMenuItem.ShortcutKeys = Keys.F1;
             disciplinaMenuItem.Size = new Size(149, 22);
             disciplinaMenuItem.Text = "Disciplinas";
+            //disciplinaMenuItem.Click += disciplinaMenuItem_Click;
             // 
             // materiasMenuItem
             // 
@@ -109,6 +110,7 @@
             btnInserir.Name = "btnInserir";
             btnInserir.Padding = new Padding(5);
             btnInserir.Size = new Size(38, 38);
+            //btnInserir.Click += btnInserir_Click;
             // 
             // btnEditar
             // 
