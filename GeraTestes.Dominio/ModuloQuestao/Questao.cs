@@ -1,4 +1,5 @@
-﻿using GeraTestes.Dominio.ModuloMateria;
+﻿using GeraTestes.Dominio.Compartilhado;
+using GeraTestes.Dominio.ModuloMateria;
 
 namespace GeraTestes.Dominio.ModuloQuestao
 {
@@ -44,6 +45,31 @@ namespace GeraTestes.Dominio.ModuloQuestao
         public override int GetHashCode()
         {
             return HashCode.Combine(Alternativas, Enunciado, Materia);
+        }
+
+        public void RemoverAlternativa(Alternativa alternativa)
+        {
+            Alternativas.Remove(alternativa);
+
+            RedefinirLetras();
+        }
+        private void RedefinirLetras()
+        {
+            char letra = 'A';
+
+            foreach (var item in Alternativas)
+            {
+                item.Letra = letra;
+                letra = letra.Next();
+            }
+        }
+        public char GerarLetraAlternativa()
+        {
+            if (Alternativas == null)
+                Alternativas = new List<Alternativa>();
+
+            return Alternativas.Count == 0 ? 'A' :
+                Alternativas.Select(x => x.Letra).Last().Next();
         }
     }
 }
