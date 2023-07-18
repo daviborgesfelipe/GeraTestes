@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="Compartilhado\" />
+    <Folder Include="ModuloQuestao\" />
   </ItemGroup>
 
 </Project>
