@@ -3,7 +3,7 @@ using GeraTestes.Infra.Sql.Compartilhado;
 
 namespace GeraTestes.Infra.Sql.ModuloDisciplina
 {
-    public class RepositorioDisciplinaEmSql : RepositorioEmSqlBase, IRepositorioDisciplina
+    public class RepositorioDisciplinaEmSql : RepositorioEmSqlBase<Disciplina, MapeadorDisciplinaSql>, IRepositorioDisciplina
     {
         #region Queries
         protected override string sqlSelecionarTodos =>
