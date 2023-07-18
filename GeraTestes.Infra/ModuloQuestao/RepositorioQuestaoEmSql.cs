@@ -1,0 +1,29 @@
+﻿using GeraTestes.Dominio.ModuloQuestao;
+using GeraTestes.Infra.Sql.Compartilhado;
+
+namespace GeraTestes.Infra.Sql.ModuloQuestao
+{
+    internal class RepositorioQuestaoEmSql : RepositorioEmSqlBase<Questao, MapeadorQuestaoSql>
+    {
+        protected override string sqlSelecionarTodos =>
+        @"SELECT 
+	                Q.ID            QUESTAO_ID                
+	               ,Q.ENUNCIADO     QUESTAO_ENUNCIADO
+                   
+	               ,M.ID            MATERIA_ID
+	               ,M.NOME          MATERIA_NOME
+                   ,M.SERIE         MATERIA_SERIE
+                   
+	               ,D.ID            DISCIPLINA_ID
+	               ,D.NOME          DISCIPLINA_NOME
+
+                FROM
+	                TBQUESTAO Q 
+    
+                    INNER JOIN TBMATERIA M 
+                        ON Q.MATERIA_ID = M.ID
+                    
+                    INNER JOIN TBDISCIPLINA D 
+                        ON D.ID = M.DISCIPLINA_ID";
+    }
+}
