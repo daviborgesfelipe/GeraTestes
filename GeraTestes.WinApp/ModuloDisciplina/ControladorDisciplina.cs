@@ -1,4 +1,6 @@
-﻿using GeraTestes.Dominio.ModuloDisciplina;
+﻿using GeraTestes.Aplicacao.ModuloDisciplina;
+using GeraTestes.Aplicacao.ModuloMateria;
+using GeraTestes.Dominio.ModuloDisciplina;
 using GeraTestes.WinApp.Compartilhado;
 using System.Runtime.CompilerServices;
 
@@ -6,11 +8,18 @@ namespace GeraTestes.WinApp.ModuloDisciplina
 {
     public class ControladorDisciplina : ControladorBase
     {
-        private TabelaDisciplinaControl tabelaDisciplina;
         private IRepositorioDisciplina repositorioDisciplina;
-        public ControladorDisciplina(IRepositorioDisciplina _repositorioDisciplina)
+
+        private ServicoDisciplina servicoMateria;
+
+        private TabelaDisciplinaControl tabelaDisciplina;
+        public ControladorDisciplina(
+            IRepositorioDisciplina _repositorioDisciplina,
+            ServicoDisciplina _servicoDisciplina
+            )
         {
             this.repositorioDisciplina = _repositorioDisciplina;
+            this.servicoMateria = _servicoDisciplina;
         }
 
         public override void Excluir()

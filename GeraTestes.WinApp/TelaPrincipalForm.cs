@@ -1,10 +1,12 @@
 using GeraTestes.Aplicacao.ModuloDisciplina;
+using GeraTestes.Aplicacao.ModuloMateria;
 using GeraTestes.Dominio.ModuloDisciplina;
 using GeraTestes.Dominio.ModuloMateria;
 using GeraTestes.Infra.Sql.ModuloDisciplina;
 using GeraTestes.Infra.Sql.ModuloMateria;
 using GeraTestes.WinApp.Compartilhado;
 using GeraTestes.WinApp.ModuloDisciplina;
+using GeraTestes.WinApp.ModuloMateria;
 using System.Runtime.CompilerServices;
 
 namespace GeraTestes.WinApp
@@ -45,12 +47,27 @@ namespace GeraTestes.WinApp
         {
             IRepositorioDisciplina repositorioDisciplina = new RepositorioDisciplinaEmSql();
             IRepositorioMateria repositorioMateria = new RepositorioMateriaEmSql();
+            
             ValidadorDisciplina validadorDisciplina = new ValidadorDisciplina();
+            ValidadorMateria validadorMateria = new ValidadorMateria();
+            
             ServicoDisciplina servicoDisciplina = new ServicoDisciplina(
                 repositorioDisciplina,
                 validadorDisciplina
                 );
-            controladores.Add("ControladorDisciplina", new ControladorDisciplina(repositorioDisciplina));
+            ServicoMateria servicoMateria = new ServicoMateria(
+                repositorioMateria,
+                validadorMateria
+                );
+
+            controladores.Add("ControladorDisciplina", new ControladorDisciplina(
+                repositorioDisciplina,
+                servicoDisciplina
+                ));
+            controladores.Add("ControladorMateria", new ControladorMateria(
+                repositorioDisciplina,
+                repositorioMateria,
+                servicoMateria));
         }
         private void ConfigurarListagem()
         {
