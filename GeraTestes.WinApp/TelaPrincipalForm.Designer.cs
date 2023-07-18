@@ -86,6 +86,7 @@
             materiasMenuItem.ShortcutKeys = Keys.F2;
             materiasMenuItem.Size = new Size(180, 22);
             materiasMenuItem.Text = "Matérias";
+            materiasMenuItem.Click += materiasMenuItem_Click;
             // 
             // questoesMenuItem
             // 

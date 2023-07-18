@@ -1,6 +1,8 @@
 using GeraTestes.Aplicacao.ModuloDisciplina;
 using GeraTestes.Dominio.ModuloDisciplina;
+using GeraTestes.Dominio.ModuloMateria;
 using GeraTestes.Infra.Sql.ModuloDisciplina;
+using GeraTestes.Infra.Sql.ModuloMateria;
 using GeraTestes.WinApp.Compartilhado;
 using GeraTestes.WinApp.ModuloDisciplina;
 using System.Runtime.CompilerServices;
@@ -42,6 +44,7 @@ namespace GeraTestes.WinApp
         private void ConfirgurarControlador()
         {
             IRepositorioDisciplina repositorioDisciplina = new RepositorioDisciplinaEmSql();
+            IRepositorioMateria repositorioMateria = new RepositorioMateriaEmSql();
             ValidadorDisciplina validadorDisciplina = new ValidadorDisciplina();
             ServicoDisciplina servicoDisciplina = new ServicoDisciplina(
                 repositorioDisciplina,
@@ -106,6 +109,11 @@ namespace GeraTestes.WinApp
         private void disciplinaMenuItem_Click(object sender, EventArgs e)
         {
             ConfigurarTelaPrincipal(controladores["ControladorDisciplina"]);
+        }
+
+        private void materiasMenuItem_Click(object sender, EventArgs e)
+        {
+            ConfigurarTelaPrincipal(controladores["ControladorMateria"]);
         }
     }
 }
