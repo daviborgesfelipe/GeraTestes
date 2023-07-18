@@ -19,6 +19,7 @@
   <ItemGroup>
     <Folder Include="Compartilhado\" />
     <Folder Include="ModuloQuestao\" />
+    <Folder Include="ModuloTeste\" />
   </ItemGroup>
 
 </Project>

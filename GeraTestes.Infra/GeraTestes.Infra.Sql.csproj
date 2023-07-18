@@ -14,4 +14,8 @@
     <ProjectReference Include="..\GeraTestes.Dominio\GeraTestes.Dominio.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ModuloTeste\" />
+  </ItemGroup>
+
 </Project>
