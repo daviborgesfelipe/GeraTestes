@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Compartilhado\" />
-    <Folder Include="ModuloDisciplina\" />
   </ItemGroup>
 
 </Project>

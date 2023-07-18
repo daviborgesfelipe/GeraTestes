@@ -1,4 +1,9 @@
+using GeraTestes.Aplicacao.ModuloDisciplina;
+using GeraTestes.Dominio.ModuloDisciplina;
+using GeraTestes.Infra.Sql.ModuloDisciplina;
 using GeraTestes.WinApp.Compartilhado;
+using GeraTestes.WinApp.ModuloDisciplina;
+using System.Runtime.CompilerServices;
 
 namespace GeraTestes.WinApp
 {
@@ -15,6 +20,7 @@ namespace GeraTestes.WinApp
             labelTipoCadastro.Text = string.Empty;
 
             controladores = new Dictionary<string, ControladorBase>();
+            ConfirgurarControlador();
         }
 
         private Dictionary<string, ControladorBase> controladores;
@@ -33,6 +39,16 @@ namespace GeraTestes.WinApp
         #endregion
 
         #region Configuracao
+        private void ConfirgurarControlador()
+        {
+            IRepositorioDisciplina repositorioDisciplina = new RepositorioDisciplinaEmSql();
+            ValidadorDisciplina validadorDisciplina = new ValidadorDisciplina();
+            ServicoDisciplina servicoDisciplina = new ServicoDisciplina(
+                repositorioDisciplina,
+                validadorDisciplina
+                );
+            controladores.Add("ControladorDisciplina", new ControladorDisciplina(repositorioDisciplina));
+        }
         private void ConfigurarListagem()
         {
             AtualizarRodape("");
