@@ -3,7 +3,7 @@ using GeraTestes.Infra.Sql.Compartilhado;
 
 namespace GeraTestes.Infra.Sql.ModuloMateria
 {
-    public class RepositorioMateriaEmSql : RepositorioEmSqlBase, IRepositorioMateria
+    public class RepositorioMateriaEmSql : RepositorioEmSqlBase<Materia, MapeadorMateriaSql>, IRepositorioMateria
     {
         protected override string sqlSelecionarTodos =>
             @"SELECT 
