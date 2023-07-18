@@ -2,6 +2,10 @@
 {
     public class Alternativa : EntidadeBase<Alternativa>
     {
+        public Alternativa()
+        {
+        }
+
         public Alternativa(int id, char letra, string? resposta, bool correta)
         {
             Id = id;
