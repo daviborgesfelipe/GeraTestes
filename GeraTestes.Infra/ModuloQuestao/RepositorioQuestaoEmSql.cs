@@ -3,7 +3,7 @@ using GeraTestes.Infra.Sql.Compartilhado;
 
 namespace GeraTestes.Infra.Sql.ModuloQuestao
 {
-    internal class RepositorioQuestaoEmSql : RepositorioEmSqlBase<Questao, MapeadorQuestaoSql>
+    public class RepositorioQuestaoEmSql : RepositorioEmSqlBase<Questao, MapeadorQuestaoSql>, IRepositorioQuestao
     {
         protected override string sqlSelecionarTodos =>
         @"SELECT 
@@ -25,5 +25,25 @@ namespace GeraTestes.Infra.Sql.ModuloQuestao
                     
                     INNER JOIN TBDISCIPLINA D 
                         ON D.ID = M.DISCIPLINA_ID";
+
+        public void Editar(Questao registro)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Excluir(Questao registro)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Inserir(Questao novoRegistro)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Questao SelecionarPorId(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
