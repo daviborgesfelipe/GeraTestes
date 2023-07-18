@@ -1,13 +1,19 @@
 ﻿using GeraTestes.Dominio;
+using GeraTestes.Dominio.ModuloMateria;
 
 namespace GeraTestes.Dominio.ModuloDisciplina
 {
     public class Disciplina : EntidadeBase<Disciplina>
     {
         public string Nome { get; set; }
+        public List<Materia> Materias { get; set; }
 
         #region Contrutores
-        public Disciplina(string nome)
+        public Disciplina()
+        {
+            Materias = new List<Materia>();
+        }
+        public Disciplina(string nome) : this()
         {
             Nome = nome;
         }
