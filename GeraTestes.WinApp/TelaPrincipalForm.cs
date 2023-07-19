@@ -17,12 +17,12 @@ namespace GeraTestes.WinApp
 {
     public partial class TelaPrincipalForm : Form
     {
-        public static TelaPrincipalForm Instancia { get; private set; }
+        public static TelaPrincipalForm InstanciaTelaPrincipal { get; private set; }
         public TelaPrincipalForm()
         {
             InitializeComponent();
 
-            Instancia = this;
+            InstanciaTelaPrincipal = this;
 
             labelRodape.Text = string.Empty;
             labelTipoCadastro.Text = string.Empty;
@@ -153,6 +153,21 @@ namespace GeraTestes.WinApp
         private void questoesMenuItem_Click(object sender, EventArgs e)
         {
             ConfigurarTelaPrincipal(controladores["ControladorQuestao"]);
+        }
+
+        private void btnInserir_Click(object sender, EventArgs e)
+        {
+            controlador.Inserir();
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            controlador.Editar();
+        }
+
+        private void btnExcluir_Click(object sender, EventArgs e)
+        {
+            controlador.Excluir();
         }
     }
 }

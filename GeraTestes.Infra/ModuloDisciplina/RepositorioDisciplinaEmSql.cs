@@ -13,33 +13,83 @@ namespace GeraTestes.Infra.Sql.ModuloDisciplina
 
 	            FROM 
 		            [TBDISCIPLINA]";
+        protected override string sqlInserir =>
+            @"INSERT INTO [TBDISCIPLINA]
+                (
+                    [NOME]
+                )    
+                 VALUES
+                (
+                    @NOME
+                );SELECT SCOPE_IDENTITY();";
+        private string sqlSelecionarPorNome =>
+            @"SELECT 
+		            [ID]    DISCIPLINA_ID
+		           ,[NOME]  DISCIPLINA_NOME
 
-        public void Editar(Disciplina registro)
-        {
-            throw new NotImplementedException();
-        }
+	            FROM 
+		            [TBDISCIPLINA]
+
+        protected override string sqlEditar =>
+            @"UPDATE [TBDISCIPLINA]	
+		        SET
+			        [NOME] = @NOME
+		        WHERE
+			        [ID] = @ID";
+        private string sqlSelecionarPorNome =>
+            @"SELECT 
+		            [ID]    DISCIPLINA_ID
+		           ,[NOME]  DISCIPLINA_NOME
+
+	            FROM 
+		            [TBDISCIPLINA]
+
+		        WHERE
+                    [NOME] = @NOME";
+        protected override string sqlSelecionarPorId =>
+            @"SELECT 
+		            [ID]    DISCIPLINA_ID
+		           ,[NOME]  DISCIPLINA_NOME
+
+	            FROM 
+		            [TBDISCIPLINA]
+
+		        WHERE
+                    [ID] = @ID";
+        #endregion
 
         public void Excluir(Disciplina registro)
         {
             throw new NotImplementedException();
         }
 
+
+	            FROM 
+		            [TBDISCIPLINA]
+
+		        WHERE
+                    [ID] = @ID";
+
+        protected override string sqlExcluir =>
+            @"DELETE FROM [TBDISCIPLINA]
+		        WHERE
+			        [ID] = @ID";
+
+        public void Editar(Disciplina registro)
+        {
+            throw new NotImplementedException();
+        }
         public void Inserir(Disciplina novoRegistro)
         {
             throw new NotImplementedException();
         }
-
-        public Disciplina SelecionarPorId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Disciplina SelecionarPorNome(string nome)
         {
-            throw new NotImplementedException();
+            SqlParameter[] parametros = new SqlParameter[] { new SqlParameter("NOME", nome) };
+
+            return base.SelecionarRegistroPorParametro(sqlSelecionarPorNome, parametros);
         }
 
-        #endregion
 
         public virtual List<Disciplina> SelecionarTodos()
         {
@@ -71,10 +121,5 @@ namespace GeraTestes.Infra.Sql.ModuloDisciplina
 
             return registros;
         }
-
-        //public List<Disciplina> SelecionarTodos(bool incluirMaterias = false, bool incluirQuestoes = false)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }
