@@ -44,7 +44,7 @@ namespace GeraTestes.WinApp.ModuloMateria
                 return;
             }
 
-            DialogResult opcaoEscolhida = MessageBox.Show("Deseja realmente excluir a matéria?",
+            DialogResult opcaoEscolhida = MessageBox.Show($"Deseja realmente excluir a matéria de {materiaSelecionada.Nome}?",
                "Exclusão de Materias", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 
             if (opcaoEscolhida == DialogResult.OK)
