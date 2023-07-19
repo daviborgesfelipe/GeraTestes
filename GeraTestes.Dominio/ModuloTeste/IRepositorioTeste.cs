@@ -2,7 +2,7 @@
 
 namespace GeraTestes.Dominio.ModuloTeste
 {
-    internal interface IRepositorioTeste : IRepositorio<Teste>
+    public interface IRepositorioTeste : IRepositorio<Teste>
     {
     }
 }
