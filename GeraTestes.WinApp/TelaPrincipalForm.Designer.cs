@@ -76,7 +76,7 @@
             // 
             disciplinaMenuItem.Name = "disciplinaMenuItem";
             disciplinaMenuItem.ShortcutKeys = Keys.F1;
-            disciplinaMenuItem.Size = new Size(180, 22);
+            disciplinaMenuItem.Size = new Size(149, 22);
             disciplinaMenuItem.Text = "Disciplinas";
             disciplinaMenuItem.Click += disciplinaMenuItem_Click;
             // 
@@ -84,21 +84,21 @@
             // 
             materiasMenuItem.Name = "materiasMenuItem";
             materiasMenuItem.ShortcutKeys = Keys.F2;
-            materiasMenuItem.Size = new Size(180, 22);
+            materiasMenuItem.Size = new Size(149, 22);
             materiasMenuItem.Text = "Matérias";
             // 
             // questoesMenuItem
             // 
             questoesMenuItem.Name = "questoesMenuItem";
             questoesMenuItem.ShortcutKeys = Keys.F3;
-            questoesMenuItem.Size = new Size(180, 22);
+            questoesMenuItem.Size = new Size(149, 22);
             questoesMenuItem.Text = "Questões";
             // 
             // testesMenuItem
             // 
             testesMenuItem.Name = "testesMenuItem";
             testesMenuItem.ShortcutKeys = Keys.F4;
-            testesMenuItem.Size = new Size(180, 22);
+            testesMenuItem.Size = new Size(149, 22);
             testesMenuItem.Text = "Testes";
             // 
             // btnInserir
@@ -140,6 +140,7 @@
             btnExcluir.Name = "btnExcluir";
             btnExcluir.Padding = new Padding(5);
             btnExcluir.Size = new Size(38, 38);
+            btnExcluir.Click += btnExcluir_Click;
             // 
             // btnVisualizar
             // 

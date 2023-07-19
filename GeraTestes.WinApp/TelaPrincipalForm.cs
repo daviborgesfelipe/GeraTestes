@@ -3,7 +3,6 @@ using GeraTestes.Dominio.ModuloDisciplina;
 using GeraTestes.Infra.Sql.ModuloDisciplina;
 using GeraTestes.WinApp.Compartilhado;
 using GeraTestes.WinApp.ModuloDisciplina;
-using System.Runtime.CompilerServices;
 
 namespace GeraTestes.WinApp
 {
@@ -47,7 +46,7 @@ namespace GeraTestes.WinApp
                 repositorioDisciplina,
                 validadorDisciplina
                 );
-            controladores.Add("ControladorDisciplina", new ControladorDisciplina(repositorioDisciplina));
+            controladores.Add("ControladorDisciplina", new ControladorDisciplina(repositorioDisciplina, servicoDisciplina));
         }
         private void ConfigurarListagem()
         {
@@ -106,6 +105,11 @@ namespace GeraTestes.WinApp
         private void disciplinaMenuItem_Click(object sender, EventArgs e)
         {
             ConfigurarTelaPrincipal(controladores["ControladorDisciplina"]);
+        }
+
+        private void btnExcluir_Click(object sender, EventArgs e)
+        {
+            controlador.Excluir();
         }
     }
 }
