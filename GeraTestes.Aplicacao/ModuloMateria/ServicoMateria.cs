@@ -44,6 +44,31 @@ namespace GeraTestes.Aplicacao.ModuloMateria
                 return Result.Fail(msgErro);
             }
         }
+        public Result Excluir(Materia materia)
+        {
+            Log.Debug("Tentando excluir matéria...{@m}", materia);
+
+            try
+            {
+                repositorioMateria.Excluir(materia);
+
+                Log.Debug("Matéria {MateriaId} editada com sucesso", materia.Id);
+
+                return Result.Ok();
+            }
+            catch (SqlException ex)
+            {
+                List<string> erros = new List<string>();
+
+                string msgErro = ObterMensagemErro(ex);
+
+                erros.Add(msgErro);
+
+                Log.Logger.Error(ex, msgErro + " {MateriaId}", materia.Id);
+
+                return Result.Fail(erros);
+            }
+        }
         private List<string> ValidarMateria(Materia materia)
         {
             List<string> erros = validadorMateria.Validate(materia)
@@ -72,6 +97,17 @@ namespace GeraTestes.Aplicacao.ModuloMateria
             }
 
             return false;
+        }
+        private static string ObterMensagemErro(SqlException ex)
+        {
+            string msgErro;
+
+            if (ex.Message.Contains("FK_TBQuestao_TBMateria"))
+                msgErro = "Esta matéria está relacionada com uma questão e não pode ser excluída";
+            else
+                msgErro = "Esta matéria não pode ser excluída";
+
+            return msgErro;
         }
     }
 }
