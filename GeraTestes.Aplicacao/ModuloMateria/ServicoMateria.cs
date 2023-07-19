@@ -2,6 +2,7 @@
 using GeraTestes.Dominio.ModuloMateria;
 using Microsoft.Data.SqlClient;
 using Serilog;
+using System.Collections.Generic;
 
 namespace GeraTestes.Aplicacao.ModuloMateria
 {
@@ -59,7 +60,32 @@ namespace GeraTestes.Aplicacao.ModuloMateria
 
             return erros;
         }
+        public Result Editar(Materia materia)
+        {
+            Log.Debug("Tentando editar matéria...{@m}", materia);
 
+            List<string> erros = ValidarMateria(materia);
+
+            if (erros.Count() > 0)
+                return Result.Fail(erros);
+
+            try
+            {
+                repositorioMateria.Editar(materia);
+
+                Log.Debug("Matéria {MateriaId} editada com sucesso", materia.Id);
+
+                return Result.Ok();
+            }
+            catch (SqlException exc)
+            {
+                string msgErro = "Falha ao tentar editar matéria.";
+
+                Log.Error(exc, msgErro + "{@m}", materia);
+
+                return Result.Fail(msgErro);
+            }
+        }
         private bool NomeDuplicado(Materia materia)
         {
             Materia materiaEncontrada = repositorioMateria.SelecionarPorNome(materia.Nome);

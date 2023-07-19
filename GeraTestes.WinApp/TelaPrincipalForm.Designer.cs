@@ -122,6 +122,7 @@
             btnEditar.Name = "btnEditar";
             btnEditar.Padding = new Padding(5);
             btnEditar.Size = new Size(38, 38);
+            btnEditar.Click += btnEditar_Click;
             // 
             // btnDuplicar
             // 

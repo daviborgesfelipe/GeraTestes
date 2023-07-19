@@ -62,5 +62,10 @@ namespace GeraTestes.WinApp.ModuloMateria
                     );
             }
         }
+        public int ObtemIdSelecionado()
+        {
+            return tabelaMaterias.SelecionarId();
+        }
+
     }
 }

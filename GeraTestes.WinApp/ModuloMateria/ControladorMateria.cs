@@ -2,12 +2,6 @@
 using GeraTestes.Dominio.ModuloDisciplina;
 using GeraTestes.Dominio.ModuloMateria;
 using GeraTestes.WinApp.Compartilhado;
-using GeraTestes.WinApp.ModuloDisciplina;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GeraTestes.WinApp.ModuloMateria
 {
@@ -30,7 +24,34 @@ namespace GeraTestes.WinApp.ModuloMateria
             this.repositorioMateria = repositorioMateria;
             this.servicoMateria = servicoMateria;
         }
+        public override void Editar()
+        {
+            int id = tabelaMaterias.ObtemIdSelecionado();
 
+            Materia materiaSelecionada = repositorioMateria.SelecionarPorId(id);
+
+            if (materiaSelecionada == null)
+            {
+                MessageBox.Show("Selecione uma matéria primeiro",
+                "Edição de Matérias", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            List<Disciplina> disciplinas = repositorioDisciplina.SelecionarTodos();
+
+            TelaCadastroMateriaForm tela = new TelaCadastroMateriaForm(disciplinas);
+
+            tela.onGravarRegistro += servicoMateria.Editar;
+
+            tela.ConfigurarMateria(materiaSelecionada);
+
+            DialogResult resultado = tela.ShowDialog();
+
+            if (resultado == DialogResult.OK)
+            {
+                CarregarMaterias();
+            }
+        }
         public override void Excluir()
         {
             throw new NotImplementedException();

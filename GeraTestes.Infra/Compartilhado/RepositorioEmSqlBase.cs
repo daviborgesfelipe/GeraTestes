@@ -1,5 +1,8 @@
 ﻿using GeraTestes.Dominio;
 using GeraTestes.Dominio.ModuloMateria;
+using GeraTestes.Dominio;
+using GeraTestes.Dominio.ModuloDisciplina;
+using System;
 
 namespace GeraTestes.Infra.Sql.Compartilhado
 {
@@ -12,6 +15,8 @@ namespace GeraTestes.Infra.Sql.Compartilhado
 
         protected abstract string sqlInserir { get; }
         protected abstract string sqlSelecionarTodos { get; }
+        protected abstract string sqlEditar { get; }
+        protected abstract string sqlSelecionarPorId { get; }
 
         public virtual void Inserir(TEntidade novoRegistro)
         {
@@ -32,6 +37,26 @@ namespace GeraTestes.Infra.Sql.Compartilhado
             object id = comandoInserir.ExecuteScalar();
 
             novoRegistro.Id = Convert.ToInt32(id);
+
+            //encerra a conexão
+            conexaoComBanco.Close();
+        }
+        public virtual void Editar(TEntidade registro)
+        {
+            //obter a conexão com o banco e abrir ela
+            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
+            conexaoComBanco.Open();
+
+            //cria um comando e relaciona com a conexão aberta
+            SqlCommand comandoEditar = conexaoComBanco.CreateCommand();
+            comandoEditar.CommandText = sqlEditar;
+
+            TMapeador mapeador = new TMapeador();
+            //adiciona os parâmetros no comando
+            mapeador.ConfigurarParametros(comandoEditar, registro);
+
+            //executa o comando
+            comandoEditar.ExecuteNonQuery();
 
             //encerra a conexão
             conexaoComBanco.Close();
@@ -66,20 +91,34 @@ namespace GeraTestes.Infra.Sql.Compartilhado
 
             return registros;
         }
-        public void Editar(TEntidade registro)
+        public virtual TEntidade SelecionarPorId(int id)
         {
-            throw new NotImplementedException();
-        }
+            //obter a conexão com o banco e abrir ela
+            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
+            conexaoComBanco.Open();
 
-        public void Excluir(TEntidade registro)
-        {
-            throw new NotImplementedException();
-        }
-        public TEntidade SelecionarPorId(int id)
-        {
-            throw new NotImplementedException();
-        }
+            //cria um comando e relaciona com a conexão aberta
+            SqlCommand comandoSelecionarPorId = conexaoComBanco.CreateCommand();
+            comandoSelecionarPorId.CommandText = sqlSelecionarPorId;
 
+            //adicionar parametro
+            comandoSelecionarPorId.Parameters.AddWithValue("ID", id);
+
+            //executa o comando
+            SqlDataReader leitorItems = comandoSelecionarPorId.ExecuteReader();
+
+            TEntidade registro = null;
+
+            TMapeador mapeador = new TMapeador();
+
+            if (leitorItems.Read())
+                registro = mapeador.ConverterRegistro(leitorItems);
+
+            //encerra a conexão
+            conexaoComBanco.Close();
+
+            return registro;
+        }
         protected static List<T> SelecionarRegistros<T>(string sql, ConverterRegistroDelegate<T> ConverterRegistro, SqlParameter[] parametros)
         {
             SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
@@ -137,6 +176,9 @@ namespace GeraTestes.Infra.Sql.Compartilhado
 
             return registro;
         }
-
+        public void Excluir(TEntidade registro)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

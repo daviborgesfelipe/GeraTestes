@@ -25,8 +25,24 @@ namespace GeraTestes.Infra.Sql.ModuloDisciplina
 	        	        WHERE
                             [NOME] = @NOME";
 
-        protected override string sqlInserir => throw new NotImplementedException();
+        protected override string sqlInserir =>
+            @"INSERT INTO [TBDISCIPLINA]
+                (
+                    [NOME]
+                )    
+                 VALUES
+                (
+                    @NOME
+                );SELECT SCOPE_IDENTITY();";
+        protected override string sqlEditar =>
+            @"UPDATE [TBDISCIPLINA]	
+	        	        SET
+	        		        [NOME] = @NOME
+	        	        WHERE
+	        		        [ID] = @ID";
 
+        protected override string sqlSelecionarPorId => throw new NotImplementedException();
+        #endregion
         public Disciplina SelecionarPorNome(string nome)
         {
             SqlParameter[] parametros = new SqlParameter[] { new SqlParameter("NOME", nome) };
@@ -34,7 +50,6 @@ namespace GeraTestes.Infra.Sql.ModuloDisciplina
             return base.SelecionarRegistroPorParametro(sqlSelecionarPorNome, parametros);
         }
 
-        #endregion
 
 
     }
