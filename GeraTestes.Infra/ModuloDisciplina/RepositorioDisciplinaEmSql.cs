@@ -64,6 +64,25 @@ namespace GeraTestes.Infra.Sql.ModuloDisciplina
         }
 
 
+	            FROM 
+		            [TBDISCIPLINA]
+
+		        WHERE
+                    [ID] = @ID";
+
+        protected override string sqlExcluir =>
+            @"DELETE FROM [TBDISCIPLINA]
+		        WHERE
+			        [ID] = @ID";
+
+        public void Editar(Disciplina registro)
+        {
+            throw new NotImplementedException();
+        }
+        public void Inserir(Disciplina novoRegistro)
+        {
+            throw new NotImplementedException();
+        }
         public Disciplina SelecionarPorNome(string nome)
         {
             SqlParameter[] parametros = new SqlParameter[] { new SqlParameter("NOME", nome) };

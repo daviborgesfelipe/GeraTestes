@@ -21,7 +21,34 @@ namespace GeraTestes.WinApp.ModuloDisciplina
 
         public override void Excluir()
         {
-            throw new NotImplementedException();
+            int id = tabelaDisciplina.ObtemIdSelecionado();
+
+            Disciplina disciplinaSelecionada = repositorioDisciplina.SelecionarPorId(id);
+
+            if (disciplinaSelecionada == null)
+            {
+                MessageBox.Show("Selecione uma disciplina primeiro",
+                "Exclusão de Disciplinas", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            DialogResult opcaoEscolhida = MessageBox.Show("Deseja realmente excluir a disciplina?",
+               "Exclusão de Disciplinas", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+            if (opcaoEscolhida == DialogResult.OK)
+            {
+                Result resultado = servicoDisciplina.Excluir(disciplinaSelecionada);
+
+                if (resultado.IsFailed)
+                {
+                    MessageBox.Show(resultado.Errors[0].Message, "Exclusão de Disciplinas",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    return;
+                }
+
+                CarregarDisciplinas();
+            }
         }
 
         public override void Inserir()

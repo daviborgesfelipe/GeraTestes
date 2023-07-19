@@ -69,6 +69,37 @@ namespace GeraTestes.Aplicacao.ModuloDisciplina
                 return Result.Fail(msgErro);
             }
         }
+        public Result Excluir(Disciplina disciplina)
+        {
+            Log.Debug("Tentando excluir disciplina...{@d}", disciplina);
+
+            try
+            {
+                repositorioDisciplina.Excluir(disciplina);
+                Log.Debug("Disciplina {DisciplinaId} excluída com sucesso", disciplina.Id);
+
+                return Result.Ok();
+            }
+            catch (SqlException ex)
+            {
+                List<string> erros = new List<string>();
+                string msgErro = ObterMensagemDeErro(ex);
+                erros.Add(msgErro);
+                Log.Error(ex, msgErro + " {DisciplinaId}", disciplina.Id);
+
+                return Result.Fail(erros);
+            }
+        }
+        private static string ObterMensagemDeErro(SqlException ex)
+        {
+            string msgErro;
+            if (ex.Message.Contains("FK_TBMateria_TBDisciplina"))
+                msgErro = "Esta disciplina está relacionada com uma matéria e não pode ser excluída";
+            else
+                msgErro = "Esta disciplina não pode ser excluída";
+
+            return msgErro;
+        }
         private List<string> ValidarDisciplina(Disciplina disciplina)
         {
             List<string> erros = validadorDisciplina.Validate(disciplina)

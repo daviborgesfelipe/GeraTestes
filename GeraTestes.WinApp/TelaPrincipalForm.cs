@@ -3,7 +3,6 @@ using GeraTestes.Dominio.ModuloDisciplina;
 using GeraTestes.Infra.Sql.ModuloDisciplina;
 using GeraTestes.WinApp.Compartilhado;
 using GeraTestes.WinApp.ModuloDisciplina;
-using System.Runtime.CompilerServices;
 
 namespace GeraTestes.WinApp
 {
@@ -116,6 +115,11 @@ namespace GeraTestes.WinApp
         private void btnEditar_Click(object sender, EventArgs e)
         {
             controlador.Editar();
+        }
+
+        private void btnExcluir_Click(object sender, EventArgs e)
+        {
+            controlador.Excluir();
         }
     }
 }
