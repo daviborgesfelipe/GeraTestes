@@ -38,7 +38,20 @@ namespace GeraTestes.WinApp.ModuloMateria
 
         public override void Inserir()
         {
-            throw new NotImplementedException();
+            List<Disciplina> disciplinas = repositorioDisciplina.SelecionarTodos();
+
+            TelaCadastroMateriaForm tela = new TelaCadastroMateriaForm(disciplinas);
+
+            tela.onGravarRegistro += servicoMateria.Inserir;
+
+            tela.ConfigurarMateria(new Materia());
+
+            DialogResult resultado = tela.ShowDialog();
+
+            if (resultado == DialogResult.OK)
+            {
+                CarregarMaterias();
+            }
         }
 
         public override ConfiguracaoToolboxBase ObtemConfiguracaoToolbox()
