@@ -1,17 +1,19 @@
 using GeraTestes.Aplicacao.ModuloDisciplina;
 using GeraTestes.Aplicacao.ModuloMateria;
 using GeraTestes.Aplicacao.ModuloQuestao;
+using GeraTestes.Aplicacao.ModuloTeste;
 using GeraTestes.Dominio.ModuloDisciplina;
 using GeraTestes.Dominio.ModuloMateria;
 using GeraTestes.Dominio.ModuloQuestao;
+using GeraTestes.Dominio.ModuloTeste;
 using GeraTestes.Infra.Sql.ModuloDisciplina;
 using GeraTestes.Infra.Sql.ModuloMateria;
 using GeraTestes.Infra.Sql.ModuloQuestao;
+using GeraTestes.Infra.Sql.ModuloTeste;
 using GeraTestes.WinApp.Compartilhado;
 using GeraTestes.WinApp.ModuloDisciplina;
 using GeraTestes.WinApp.ModuloMateria;
 using GeraTestes.WinApp.ModuloQuestao;
-using System.Runtime.CompilerServices;
 
 namespace GeraTestes.WinApp
 {
@@ -52,12 +54,14 @@ namespace GeraTestes.WinApp
             IRepositorioDisciplina repositorioDisciplina = new RepositorioDisciplinaEmSql();
             IRepositorioMateria repositorioMateria = new RepositorioMateriaEmSql();
             IRepositorioQuestao repositorioQuestao = new RepositorioQuestaoEmSql();
+            IRepositorioTeste repositorioTeste = new RepositorioTesteEmSql();
 
             ValidadorDisciplina validadorDisciplina = new ValidadorDisciplina();
             ValidadorMateria validadorMateria = new ValidadorMateria();
             ValidadorQuestao validadorQuestao = new ValidadorQuestao();
             ValidadorAlternativa validationAlternativa = new ValidadorAlternativa();
-            
+            ValidadorTeste validationTeste = new ValidadorTeste();
+
             ServicoDisciplina servicoDisciplina = new ServicoDisciplina(
                 repositorioDisciplina,
                 validadorDisciplina
@@ -70,7 +74,11 @@ namespace GeraTestes.WinApp
                 repositorioQuestao,
                 validadorQuestao,
                 validationAlternativa
-                );  
+                );
+            ServicoTeste servicoTeste = new ServicoTeste(
+                repositorioTeste,
+                validationTeste
+                );
 
             controladores.Add("ControladorDisciplina", new ControladorDisciplina(
                 repositorioDisciplina,
@@ -81,7 +89,7 @@ namespace GeraTestes.WinApp
                 repositorioMateria,
                 servicoMateria));
             controladores.Add("ControladorQuestao", new ControladorQuestao(
-                repositorioQuestao, 
+                repositorioQuestao,
                 repositorioDisciplina,
                 servicoQuestao
                 ));
@@ -153,6 +161,11 @@ namespace GeraTestes.WinApp
         private void questoesMenuItem_Click(object sender, EventArgs e)
         {
             ConfigurarTelaPrincipal(controladores["ControladorQuestao"]);
+        }
+
+        private void testesMenuItem_Click(object sender, EventArgs e)
+        {
+            ConfigurarTelaPrincipal(controladores["ControladorTeste"]);
         }
     }
 }
