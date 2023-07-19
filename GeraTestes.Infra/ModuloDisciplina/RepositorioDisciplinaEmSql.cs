@@ -27,6 +27,10 @@ namespace GeraTestes.Infra.Sql.ModuloDisciplina
 
         protected override string sqlInserir => throw new NotImplementedException();
 
+        protected override string sqlExcluir => throw new NotImplementedException();
+
+        protected override string sqlSelecionarPorId => throw new NotImplementedException();
+
         public Disciplina SelecionarPorNome(string nome)
         {
             SqlParameter[] parametros = new SqlParameter[] { new SqlParameter("NOME", nome) };
