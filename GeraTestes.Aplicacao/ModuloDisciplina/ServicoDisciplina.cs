@@ -1,4 +1,6 @@
-﻿using GeraTestes.Dominio.ModuloDisciplina;
+﻿using FluentResults;
+using GeraTestes.Dominio.ModuloDisciplina;
+using Microsoft.Data.SqlClient;
 using Serilog;
 using System.Runtime.CompilerServices;
 
@@ -16,6 +18,32 @@ namespace GeraTestes.Aplicacao.ModuloDisciplina
         {
             this.repositorioDisciplina = repositorioDisciplina;
             this.validadorDisciplina = validadorDisciplina;
+        }
+        public Result Editar(Disciplina disciplina)
+        {
+            Log.Debug("Tentando editar disciplina...{@d}", disciplina);
+
+            List<string> erros = ValidarDisciplina(disciplina);
+
+            if (erros.Count() > 0)
+                return Result.Fail(erros);
+
+            try
+            {
+                repositorioDisciplina.Editar(disciplina);
+
+                Log.Debug("Disciplina {DisciplinaId} editada com sucesso", disciplina.Id);
+
+                return Result.Ok();
+            }
+            catch (SqlException exc)
+            {
+                string msgErro = "Falha ao tentar editar disciplina.";
+
+                Log.Error(exc, msgErro + "{@d}", disciplina);
+
+                return Result.Fail(msgErro);
+            }
         }
         private List<string> ValidarDisciplina(Disciplina disciplina)
         {
