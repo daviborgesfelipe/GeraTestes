@@ -1,4 +1,7 @@
-﻿using GeraTestes.Dominio.ModuloMateria;
+﻿using FluentResults;
+using GeraTestes.Dominio.ModuloMateria;
+using Microsoft.Data.SqlClient;
+using Serilog;
 
 namespace GeraTestes.Aplicacao.ModuloMateria
 {
@@ -14,6 +17,61 @@ namespace GeraTestes.Aplicacao.ModuloMateria
         {
             this.repositorioMateria = _repositorioMateria;
             this.validadorMateria = _validadorMatria;
+        }
+        public Result Editar(Materia materia)
+        {
+            Log.Debug("Tentando editar matéria...{@m}", materia);
+
+            List<string> erros = ValidarMateria(materia);
+
+            if (erros.Count() > 0)
+                return Result.Fail(erros);
+
+            try
+            {
+                repositorioMateria.Editar(materia);
+
+                Log.Debug("Matéria {MateriaId} editada com sucesso", materia.Id);
+
+                return Result.Ok();
+            }
+            catch (SqlException exc)
+            {
+                string msgErro = "Falha ao tentar editar matéria.";
+
+                Log.Error(exc, msgErro + "{@m}", materia);
+
+                return Result.Fail(msgErro);
+            }
+        }
+        private List<string> ValidarMateria(Materia materia)
+        {
+            List<string> erros = validadorMateria.Validate(materia)
+                .Errors.Select(x => x.ErrorMessage).ToList();
+
+            if (NomeDuplicado(materia))
+                erros.Add($"Este nome '{materia.Nome}' já está sendo utilizado");
+
+            foreach (string erro in erros)
+            {
+                Log.Warning(erro);
+            }
+
+            return erros;
+        }
+
+        private bool NomeDuplicado(Materia materia)
+        {
+            Materia materiaEncontrada = repositorioMateria.SelecionarPorNome(materia.Nome);
+
+            if (materiaEncontrada != null &&
+                materiaEncontrada.Id != materia.Id &&
+                materiaEncontrada.Nome == materia.Nome)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
