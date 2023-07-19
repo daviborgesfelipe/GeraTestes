@@ -47,10 +47,10 @@ namespace GeraTestes.WinApp
         {
             IRepositorioDisciplina repositorioDisciplina = new RepositorioDisciplinaEmSql();
             IRepositorioMateria repositorioMateria = new RepositorioMateriaEmSql();
-            
+
             ValidadorDisciplina validadorDisciplina = new ValidadorDisciplina();
             ValidadorMateria validadorMateria = new ValidadorMateria();
-            
+
             ServicoDisciplina servicoDisciplina = new ServicoDisciplina(
                 repositorioDisciplina,
                 validadorDisciplina
@@ -131,6 +131,11 @@ namespace GeraTestes.WinApp
         private void materiasMenuItem_Click(object sender, EventArgs e)
         {
             ConfigurarTelaPrincipal(controladores["ControladorMateria"]);
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            controlador.Editar();
         }
     }
 }
