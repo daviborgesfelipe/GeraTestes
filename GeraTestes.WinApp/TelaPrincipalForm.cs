@@ -47,7 +47,7 @@ namespace GeraTestes.WinApp
                 repositorioDisciplina,
                 validadorDisciplina
                 );
-            controladores.Add("ControladorDisciplina", new ControladorDisciplina(repositorioDisciplina));
+            controladores.Add("ControladorDisciplina", new ControladorDisciplina(repositorioDisciplina, servicoDisciplina));
         }
         private void ConfigurarListagem()
         {
@@ -106,6 +106,11 @@ namespace GeraTestes.WinApp
         private void disciplinaMenuItem_Click(object sender, EventArgs e)
         {
             ConfigurarTelaPrincipal(controladores["ControladorDisciplina"]);
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            controlador.Editar();
         }
     }
 }
