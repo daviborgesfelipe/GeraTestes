@@ -7,6 +7,10 @@ namespace GeraTestes.Dominio.ModuloDisciplina
         public string Nome { get; set; }
 
         #region Contrutores
+        public Disciplina()
+        {
+            
+        }
         public Disciplina(string nome)
         {
             Nome = nome;
