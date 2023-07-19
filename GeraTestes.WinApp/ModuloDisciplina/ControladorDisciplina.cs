@@ -1,4 +1,5 @@
-﻿using GeraTestes.Dominio.ModuloDisciplina;
+﻿using GeraTestes.Aplicacao.ModuloDisciplina;
+using GeraTestes.Dominio.ModuloDisciplina;
 using GeraTestes.WinApp.Compartilhado;
 using System.Runtime.CompilerServices;
 
@@ -8,9 +9,13 @@ namespace GeraTestes.WinApp.ModuloDisciplina
     {
         private TabelaDisciplinaControl tabelaDisciplina;
         private IRepositorioDisciplina repositorioDisciplina;
-        public ControladorDisciplina(IRepositorioDisciplina _repositorioDisciplina)
+        private ServicoDisciplina servicoDisciplina;
+        public ControladorDisciplina(
+            IRepositorioDisciplina _repositorioDisciplina,
+            ServicoDisciplina _servicoDisciplina)
         {
             this.repositorioDisciplina = _repositorioDisciplina;
+            this.servicoDisciplina = _servicoDisciplina;
         }
 
         public override void Excluir()
@@ -20,7 +25,16 @@ namespace GeraTestes.WinApp.ModuloDisciplina
 
         public override void Inserir()
         {
-            throw new NotImplementedException();
+            TelaCadastroDisciplinaForm telaCadastroDisciplina = new TelaCadastroDisciplinaForm();
+            telaCadastroDisciplina.onGravarRegistro += servicoDisciplina.Inserir;
+            telaCadastroDisciplina.ConfigurarDisciplina(new Disciplina());
+
+            DialogResult resultado = telaCadastroDisciplina.ShowDialog();
+
+            if (resultado == DialogResult.OK)
+            {
+                CarregarDisciplinas();
+            }
         }
 
         public override ConfiguracaoToolboxBase ObtemConfiguracaoToolbox()

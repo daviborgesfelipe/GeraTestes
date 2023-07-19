@@ -1,5 +1,4 @@
 ﻿using GeraTestes.Dominio;
-using GeraTestes.Dominio.Compartilhado;
 
 namespace GeraTestes.WinApp.Compartilhado
 {

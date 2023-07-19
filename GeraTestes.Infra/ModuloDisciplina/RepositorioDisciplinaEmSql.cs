@@ -3,7 +3,7 @@ using GeraTestes.Infra.Sql.Compartilhado;
 
 namespace GeraTestes.Infra.Sql.ModuloDisciplina
 {
-    public class RepositorioDisciplinaEmSql : RepositorioEmSqlBase, IRepositorioDisciplina
+    public class RepositorioDisciplinaEmSql : RepositorioEmSqlBase<Disciplina, MapeadorDisciplinaSql>, IRepositorioDisciplina
     {
         #region Queries
         protected override string sqlSelecionarTodos =>
@@ -13,6 +13,25 @@ namespace GeraTestes.Infra.Sql.ModuloDisciplina
 
 	            FROM 
 		            [TBDISCIPLINA]";
+        protected override string sqlInserir =>
+            @"INSERT INTO [TBDISCIPLINA]
+                (
+                    [NOME]
+                )    
+                 VALUES
+                (
+                    @NOME
+                );SELECT SCOPE_IDENTITY();";
+        private string sqlSelecionarPorNome =>
+            @"SELECT 
+		            [ID]    DISCIPLINA_ID
+		           ,[NOME]  DISCIPLINA_NOME
+
+	            FROM 
+		            [TBDISCIPLINA]
+
+		        WHERE
+                    [NOME] = @NOME";
 
         public void Editar(Disciplina registro)
         {
@@ -24,11 +43,6 @@ namespace GeraTestes.Infra.Sql.ModuloDisciplina
             throw new NotImplementedException();
         }
 
-        public void Inserir(Disciplina novoRegistro)
-        {
-            throw new NotImplementedException();
-        }
-
         public Disciplina SelecionarPorId(int id)
         {
             throw new NotImplementedException();
@@ -36,7 +50,9 @@ namespace GeraTestes.Infra.Sql.ModuloDisciplina
 
         public Disciplina SelecionarPorNome(string nome)
         {
-            throw new NotImplementedException();
+            SqlParameter[] parametros = new SqlParameter[] { new SqlParameter("NOME", nome) };
+
+            return base.SelecionarRegistroPorParametro(sqlSelecionarPorNome, parametros);
         }
 
         #endregion
@@ -71,10 +87,5 @@ namespace GeraTestes.Infra.Sql.ModuloDisciplina
 
             return registros;
         }
-
-        //public List<Disciplina> SelecionarTodos(bool incluirMaterias = false, bool incluirQuestoes = false)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }
