@@ -3,7 +3,7 @@ using GeraTestes.Infra.Sql.Compartilhado;
 
 namespace GeraTestes.Infra.Sql.ModuloDisciplina
 {
-    public class RepositorioDisciplinaEmSql : RepositorioEmSqlBase, IRepositorioDisciplina
+    public class RepositorioDisciplinaEmSql : RepositorioEmSqlBase<Disciplina, MapeadorDisciplinaSql>, IRepositorioDisciplina
     {
         #region Queries
         protected override string sqlSelecionarTodos =>
@@ -13,27 +13,30 @@ namespace GeraTestes.Infra.Sql.ModuloDisciplina
 
 	            FROM 
 		            [TBDISCIPLINA]";
+        protected override string sqlSelecionarPorId =>
+            @"SELECT 
+		            [ID]    DISCIPLINA_ID
+		           ,[NOME]  DISCIPLINA_NOME
+
+	            FROM 
+		            [TBDISCIPLINA]
+
+		        WHERE
+                    [ID] = @ID";
+
+        protected override string sqlExcluir =>
+            @"DELETE FROM [TBDISCIPLINA]
+		        WHERE
+			        [ID] = @ID";
 
         public void Editar(Disciplina registro)
         {
             throw new NotImplementedException();
         }
-
-        public void Excluir(Disciplina registro)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Inserir(Disciplina novoRegistro)
         {
             throw new NotImplementedException();
         }
-
-        public Disciplina SelecionarPorId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Disciplina SelecionarPorNome(string nome)
         {
             throw new NotImplementedException();
