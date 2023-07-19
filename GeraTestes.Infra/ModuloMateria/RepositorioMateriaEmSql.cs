@@ -39,6 +39,25 @@ namespace GeraTestes.Infra.Sql.ModuloMateria
 
 	    	        WHERE
 	    		        [ID] = @ID";
+
+        protected override string sqlSelecionarPorId =>
+            @"SELECT 
+	            MT.ID       MATERIA_ID
+	           ,MT.NOME     MATERIA_NOME
+	           ,MT.SERIE    MATERIA_SERIE
+
+	           ,D.ID        DISCIPLINA_ID
+	           ,D.NOME      DISCIPLINA_NOME
+
+            FROM
+	            TBMATERIA AS MT 
+                
+                INNER JOIN TBDISCIPLINA AS D                     
+                    ON MT.DISCIPLINA_ID = D.ID
+
+            WHERE
+                MT.ID = @ID";
+
         private string sqlSelecionarPorNome =>
         @"SELECT 
 	                MT.ID       MATERIA_ID
