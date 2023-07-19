@@ -30,23 +30,39 @@ namespace GeraTestes.Infra.Sql.ModuloDisciplina
 	            FROM 
 		            [TBDISCIPLINA]
 
+        protected override string sqlEditar =>
+            @"UPDATE [TBDISCIPLINA]	
+		        SET
+			        [NOME] = @NOME
+		        WHERE
+			        [ID] = @ID";
+        private string sqlSelecionarPorNome =>
+            @"SELECT 
+		            [ID]    DISCIPLINA_ID
+		           ,[NOME]  DISCIPLINA_NOME
+
+	            FROM 
+		            [TBDISCIPLINA]
+
 		        WHERE
                     [NOME] = @NOME";
+        protected override string sqlSelecionarPorId =>
+            @"SELECT 
+		            [ID]    DISCIPLINA_ID
+		           ,[NOME]  DISCIPLINA_NOME
 
-        public void Editar(Disciplina registro)
-        {
-            throw new NotImplementedException();
-        }
+	            FROM 
+		            [TBDISCIPLINA]
+
+		        WHERE
+                    [ID] = @ID";
+        #endregion
 
         public void Excluir(Disciplina registro)
         {
             throw new NotImplementedException();
         }
 
-        public Disciplina SelecionarPorId(int id)
-        {
-            throw new NotImplementedException();
-        }
 
         public Disciplina SelecionarPorNome(string nome)
         {
@@ -55,7 +71,6 @@ namespace GeraTestes.Infra.Sql.ModuloDisciplina
             return base.SelecionarRegistroPorParametro(sqlSelecionarPorNome, parametros);
         }
 
-        #endregion
 
         public virtual List<Disciplina> SelecionarTodos()
         {

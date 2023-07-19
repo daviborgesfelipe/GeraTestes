@@ -10,12 +10,13 @@ namespace GeraTestes.WinApp.ModuloDisciplina
         private TabelaDisciplinaControl tabelaDisciplina;
         private IRepositorioDisciplina repositorioDisciplina;
         private ServicoDisciplina servicoDisciplina;
+
         public ControladorDisciplina(
             IRepositorioDisciplina _repositorioDisciplina,
-            ServicoDisciplina _servicoDisciplina)
+            ServicoDisciplina servicoDisciplina)
         {
             this.repositorioDisciplina = _repositorioDisciplina;
-            this.servicoDisciplina = _servicoDisciplina;
+            this.servicoDisciplina = servicoDisciplina;
         }
 
         public override void Excluir()
@@ -36,6 +37,34 @@ namespace GeraTestes.WinApp.ModuloDisciplina
                 CarregarDisciplinas();
             }
         }
+
+        public override void Editar()
+        {
+            int id = tabelaDisciplina.ObtemIdSelecionado();
+
+            Disciplina disciplinaSelecionada = repositorioDisciplina.SelecionarPorId(id);
+
+            if (disciplinaSelecionada == null)
+            {
+                MessageBox.Show("Selecione uma disciplina primeiro",
+                "Edição de Compromissos", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            TelaCadastroDisciplinaForm tela = new TelaCadastroDisciplinaForm();
+
+            tela.onGravarRegistro += servicoDisciplina.Editar;
+
+            tela.ConfigurarDisciplina(disciplinaSelecionada);
+
+            DialogResult resultado = tela.ShowDialog();
+
+            if (resultado == DialogResult.OK)
+            {
+                CarregarDisciplinas();
+            }
+        }
+
 
         public override ConfiguracaoToolboxBase ObtemConfiguracaoToolbox()
         {

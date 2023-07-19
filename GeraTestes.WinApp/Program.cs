@@ -14,20 +14,21 @@ namespace GeraTestes.WinApp
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
+            //ApplicationConfiguration.Initialize();
             ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("pt-BR");
+
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .WriteTo.Seq("http://localhost:5341")
                 .CreateLogger();
 
-            /*.WriteTo.File(@"C:\temp\logs\gerador-testes-.txt", 
-                    outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message}{NewLine}{Exception}", 
-                    rollingInterval: RollingInterval.Day, retainedFileCountLimit: 5)  */
+            //.WriteTo.File(@"C:\temp\logs\gerador-testes-.txt", 
+            //        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message}{NewLine}{Exception}", 
+            //        rollingInterval: RollingInterval.Day, retainedFileCountLimit: 5)  
 
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            ApplicationConfiguration.Initialize();
             Application.Run(new TelaPrincipalForm());
         }
     }
