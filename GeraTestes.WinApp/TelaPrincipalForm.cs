@@ -9,12 +9,12 @@ namespace GeraTestes.WinApp
 {
     public partial class TelaPrincipalForm : Form
     {
-        public static TelaPrincipalForm Instancia { get; private set; }
+        public static TelaPrincipalForm InstanciaTelaPrincipal { get; private set; }
         public TelaPrincipalForm()
         {
             InitializeComponent();
 
-            Instancia = this;
+            InstanciaTelaPrincipal = this;
 
             labelRodape.Text = string.Empty;
             labelTipoCadastro.Text = string.Empty;

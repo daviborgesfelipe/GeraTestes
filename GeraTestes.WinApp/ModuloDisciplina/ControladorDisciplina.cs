@@ -45,7 +45,7 @@ namespace GeraTestes.WinApp.ModuloDisciplina
             tabelaDisciplina.AtualizarRegistros(disciplinas);
             mensagemRodape = string.Format("Visualizando {0} disciplina{1}", disciplinas.Count, disciplinas.Count == 1 ? "" : "s");
 
-            TelaPrincipalForm.Instancia.AtualizarRodape(mensagemRodape);
+            TelaPrincipalForm.InstanciaTelaPrincipal.AtualizarRodape(mensagemRodape);
         }
     }
 }
