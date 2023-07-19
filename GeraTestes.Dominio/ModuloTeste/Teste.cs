@@ -16,6 +16,15 @@ namespace GeraTestes.Dominio.ModuloTeste
         public Disciplina Disciplina { get; set; }
         public Materia Materia { get; set; }
 
+        public Teste(int id, string titulo, bool provao, DateTime DataGeracao, int quantidadeQuestoes)
+        {
+            this.Id = id;
+            this.Titulo = titulo;
+            this.Provao = provao;
+            this.DataGeracao = DataGeracao;
+            this.QuantidadeQuestoes = quantidadeQuestoes;
+        }
+
         public override void Atualizar(Teste teste)
         {
             Titulo = teste.Titulo;
