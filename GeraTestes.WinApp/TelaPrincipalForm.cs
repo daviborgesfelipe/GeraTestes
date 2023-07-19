@@ -14,6 +14,7 @@ using GeraTestes.WinApp.Compartilhado;
 using GeraTestes.WinApp.ModuloDisciplina;
 using GeraTestes.WinApp.ModuloMateria;
 using GeraTestes.WinApp.ModuloQuestao;
+using GeraTestes.WinApp.ModuloTeste;
 
 namespace GeraTestes.WinApp
 {
@@ -92,6 +93,11 @@ namespace GeraTestes.WinApp
                 repositorioQuestao,
                 repositorioDisciplina,
                 servicoQuestao
+                ));
+            controladores.Add("ControladorTeste", new ControladorTeste(
+                repositorioDisciplina,
+                repositorioTeste,
+                servicoTeste
                 ));
         }
         private void ConfigurarListagem()
