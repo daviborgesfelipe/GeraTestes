@@ -3,10 +3,10 @@ using GeraTestes.Infra.Sql.Compartilhado;
 
 namespace GeraTestes.Infra.Sql.ModuloMateria
 {
-    public class RepositorioMateriaEmSql : RepositorioEmSqlBase, IRepositorioMateria
+    public class RepositorioMateriaEmSql : RepositorioEmSqlBase<Materia, MapeadorMateriaSql>, IRepositorioMateria
     {
         protected override string sqlSelecionarTodos =>
-            @"SELECT 
+        @"SELECT 
 	            MT.ID       MATERIA_ID
 	           ,MT.NOME     MATERIA_NOME
 	           ,MT.SERIE    MATERIA_SERIE
@@ -19,63 +19,43 @@ namespace GeraTestes.Infra.Sql.ModuloMateria
                 
                 INNER JOIN TBDISCIPLINA AS D                     
                     ON MT.DISCIPLINA_ID = D.ID";
+        protected override string sqlInserir =>
+        @"INSERT INTO [TBMATERIA]
+                   (
+                        [NOME],
+                        [SERIE],
+                        [DISCIPLINA_ID]
+                   )
+                VALUES
+                   (
+                        @NOME,
+                        @SERIE,
+                        @DISCIPLINA_ID
+                   ); 
 
-        #region CRUD
-        public void Editar(Materia registro)
-        {
-            throw new NotImplementedException();
-        }
+                SELECT SCOPE_IDENTITY()";
+        private string sqlSelecionarPorNome =>
+        @"SELECT 
+	                MT.ID       MATERIA_ID
+	               ,MT.NOME     MATERIA_NOME
+	               ,MT.SERIE    MATERIA_SERIE
 
-        public void Excluir(Materia registro)
-        {
-            throw new NotImplementedException();
-        }
+	               ,D.ID        DISCIPLINA_ID
+	               ,D.NOME      DISCIPLINA_NOME
 
-        public void Inserir(Materia novoRegistro)
-        {
-            throw new NotImplementedException();
-        }
+                FROM
+	                TBMATERIA AS MT 
+                    
+                    INNER JOIN TBDISCIPLINA AS D                     
+                        ON MT.DISCIPLINA_ID = D.ID
 
-        public Materia SelecionarPorId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
+                WHERE
+                    MT.NOME = @NOME";
         public Materia SelecionarPorNome(string nome)
         {
-            throw new NotImplementedException();
+            SqlParameter[] parametros = new SqlParameter[] { new SqlParameter("NOME", nome) };
+
+            return base.SelecionarRegistroPorParametro(sqlSelecionarPorNome, parametros);
         }
-
-        public virtual List<Materia> SelecionarTodos()
-        {
-            //obter a conexão com o banco e abrir ela
-            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
-            conexaoComBanco.Open();
-
-            //cria um comando e relaciona com a conexão aberta
-            SqlCommand comandoSelecionarTodos = conexaoComBanco.CreateCommand();
-            comandoSelecionarTodos.CommandText = sqlSelecionarTodos;
-
-            //executa o comando
-            SqlDataReader leitorItens = comandoSelecionarTodos.ExecuteReader();
-
-            List<Materia> registros = new List<Materia>();
-
-            MapeadorMateriaSql mapeador = new MapeadorMateriaSql();
-
-            while (leitorItens.Read())
-            {
-                Materia registro = mapeador.ConverterRegistro(leitorItens);
-
-                if (registro != null)
-                    registros.Add(registro);
-            }
-
-            //encerra a conexão
-            conexaoComBanco.Close();
-
-            return registros;
-        }
-        #endregion
     }
 }
