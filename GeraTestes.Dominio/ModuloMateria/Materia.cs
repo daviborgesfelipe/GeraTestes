@@ -26,6 +26,10 @@ namespace GeraTestes.Dominio.ModuloMateria
         {
             Id = id;
         }
+
+        public Materia()
+        {
+        }
         #endregion
         public override void Atualizar(Materia materia)
         {
