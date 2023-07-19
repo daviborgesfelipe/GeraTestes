@@ -1,4 +1,5 @@
-﻿using GeraTestes.Dominio.ModuloDisciplina;
+﻿using GeraTestes.Aplicacao.ModuloTeste;
+using GeraTestes.Dominio.ModuloDisciplina;
 using GeraTestes.Dominio.ModuloTeste;
 using GeraTestes.WinApp.Compartilhado;
 
@@ -9,12 +10,19 @@ namespace GeraTestes.WinApp.ModuloTeste
         private IRepositorioDisciplina repositorioDisciplina;
         private IRepositorioTeste repositorioTeste;
 
+        private ServicoTeste servicoTeste;
+
         private TabelaTesteControl tabelaTeste;
 
-        public ControladorTeste(IRepositorioDisciplina repositorioDisciplina, IRepositorioTeste repositorioTeste)
+        public ControladorTeste(
+            IRepositorioDisciplina repositorioDisciplina,
+            IRepositorioTeste repositorioTeste,
+            ServicoTeste servicoTeste
+            )
         {
             this.repositorioDisciplina = repositorioDisciplina;
             this.repositorioTeste = repositorioTeste;
+            this.servicoTeste = servicoTeste;
         }
 
         public override void Excluir()
