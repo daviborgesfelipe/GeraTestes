@@ -13,6 +13,7 @@ namespace GeraTestes.Infra.Sql.Compartilhado
         protected abstract string sqlInserir { get; }
         protected abstract string sqlExcluir { get; }
         protected abstract string sqlSelecionarTodos { get; }
+        protected abstract string sqlSelecionarPorId { get; }
 
         public virtual void Inserir(TEntidade novoRegistro)
         {
@@ -72,9 +73,33 @@ namespace GeraTestes.Infra.Sql.Compartilhado
             throw new NotImplementedException();
         }
 
-        public TEntidade SelecionarPorId(int id)
+        public virtual TEntidade SelecionarPorId(int id)
         {
-            throw new NotImplementedException();
+            //obter a conexão com o banco e abrir ela
+            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
+            conexaoComBanco.Open();
+
+            //cria um comando e relaciona com a conexão aberta
+            SqlCommand comandoSelecionarPorId = conexaoComBanco.CreateCommand();
+            comandoSelecionarPorId.CommandText = sqlSelecionarPorId;
+
+            //adicionar parametro
+            comandoSelecionarPorId.Parameters.AddWithValue("ID", id);
+
+            //executa o comando
+            SqlDataReader leitorItems = comandoSelecionarPorId.ExecuteReader();
+
+            TEntidade registro = null;
+
+            TMapeador mapeador = new TMapeador();
+
+            if (leitorItems.Read())
+                registro = mapeador.ConverterRegistro(leitorItems);
+
+            //encerra a conexão
+            conexaoComBanco.Close();
+
+            return registro;
         }
 
         protected static List<T> SelecionarRegistros<T>(string sql, ConverterRegistroDelegate<T> ConverterRegistro, SqlParameter[] parametros)
