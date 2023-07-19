@@ -34,6 +34,11 @@ namespace GeraTestes.Infra.Sql.ModuloMateria
                    ); 
 
                 SELECT SCOPE_IDENTITY()";
+        protected override string sqlExcluir =>
+        @"DELETE FROM [TBMATERIA]
+
+	    	        WHERE
+	    		        [ID] = @ID";
         private string sqlSelecionarPorNome =>
         @"SELECT 
 	                MT.ID       MATERIA_ID
