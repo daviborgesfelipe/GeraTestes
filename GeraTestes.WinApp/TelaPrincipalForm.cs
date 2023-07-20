@@ -57,7 +57,7 @@ namespace GeraTestes.WinApp
             ValidadorMateria validadorMateria = new ValidadorMateria();
             ValidadorQuestao validadorQuestao = new ValidadorQuestao();
             ValidadorAlternativa validationAlternativa = new ValidadorAlternativa();
-            
+
             ServicoDisciplina servicoDisciplina = new ServicoDisciplina(
                 repositorioDisciplina,
                 validadorDisciplina
@@ -70,7 +70,7 @@ namespace GeraTestes.WinApp
                 repositorioQuestao,
                 validadorQuestao,
                 validationAlternativa
-                );  
+                );
 
             controladores.Add("ControladorDisciplina", new ControladorDisciplina(
                 repositorioDisciplina,
@@ -81,7 +81,7 @@ namespace GeraTestes.WinApp
                 repositorioMateria,
                 servicoMateria));
             controladores.Add("ControladorQuestao", new ControladorQuestao(
-                repositorioQuestao, 
+                repositorioQuestao,
                 repositorioDisciplina,
                 servicoQuestao
                 ));
@@ -153,6 +153,11 @@ namespace GeraTestes.WinApp
         private void questoesMenuItem_Click(object sender, EventArgs e)
         {
             ConfigurarTelaPrincipal(controladores["ControladorQuestao"]);
+        }
+
+        private void btnInserir_Click(object sender, EventArgs e)
+        {
+            controlador.Inserir();
         }
     }
 }
