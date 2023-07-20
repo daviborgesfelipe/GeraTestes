@@ -26,6 +26,14 @@ namespace GeraTestes.Infra.Sql.ModuloQuestao
                     INNER JOIN TBDISCIPLINA D 
                         ON D.ID = M.DISCIPLINA_ID";
 
+        protected override string sqlSelecionarPorId => throw new NotImplementedException();
+
+        protected override string sqlExcluir => throw new NotImplementedException();
+
+        protected override string sqlEditar => throw new NotImplementedException();
+
+        protected override string sqlInserir => throw new NotImplementedException();
+
         public void Editar(Questao registro)
         {
             throw new NotImplementedException();

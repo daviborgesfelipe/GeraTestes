@@ -13,7 +13,6 @@ namespace GeraTestes.Infra.Sql.Compartilhado
         protected abstract string sqlExcluir { get; }
         protected abstract string sqlSelecionarTodos { get; }
         protected abstract string sqlEditar { get; }
-        protected abstract string sqlSelecionarPorId { get; }
         protected abstract string sqlInserir { get; }
 
         public virtual void Editar(TEntidade registro)
@@ -36,67 +35,6 @@ namespace GeraTestes.Infra.Sql.Compartilhado
             //encerra a conexão
             conexaoComBanco.Close();
         }
-
-        public virtual TEntidade SelecionarRegistroPorParametro(string sqlSelecionarPorParametro, SqlParameter[] parametros)
-        {
-            //obter a conexão com o banco e abrir ela
-            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
-            conexaoComBanco.Open();
-
-            //cria um comando e relaciona com a conexão aberta
-            SqlCommand comandoSelecionarPorParametro = conexaoComBanco.CreateCommand();
-            comandoSelecionarPorParametro.CommandText = sqlSelecionarPorParametro;
-
-            foreach (SqlParameter parametro in parametros)
-            {
-                comandoSelecionarPorParametro.Parameters.Add(parametro);
-            }
-
-            //executa o comando
-            SqlDataReader leitorItens = comandoSelecionarPorParametro.ExecuteReader();
-
-            TMapeador mapeador = new TMapeador();
-
-            TEntidade registro = default(TEntidade);
-            if (leitorItens.Read())
-                registro = mapeador.ConverterRegistro(leitorItens);
-
-            //encerra a conexão
-            conexaoComBanco.Close();
-
-            return registro;
-        }
-        public virtual TEntidade SelecionarPorId(int id)
-        {
-            //obter a conexão com o banco e abrir ela
-            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
-            conexaoComBanco.Open();
-
-            //cria um comando e relaciona com a conexão aberta
-            SqlCommand comandoSelecionarPorId = conexaoComBanco.CreateCommand();
-            comandoSelecionarPorId.CommandText = sqlSelecionarPorId;
-
-            //adicionar parametro
-            comandoSelecionarPorId.Parameters.AddWithValue("ID", id);
-
-            //executa o comando
-            SqlDataReader leitorItems = comandoSelecionarPorId.ExecuteReader();
-
-            TEntidade registro = null;
-
-            TMapeador mapeador = new TMapeador();
-
-            if (leitorItems.Read())
-                registro = mapeador.ConverterRegistro(leitorItems);
-
-            //encerra a conexão
-            conexaoComBanco.Close();
-
-            return registro;
-        }
-
-
-
         public virtual void Inserir(TEntidade novoRegistro)
         {
             //obter a conexão com o banco e abrir ela
@@ -120,6 +58,25 @@ namespace GeraTestes.Infra.Sql.Compartilhado
             //encerra a conexão
             conexaoComBanco.Close();
         }
+        public virtual void Excluir(TEntidade registroSelecionado)
+        {
+            //obter a conexão com o banco e abrir ela
+            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
+            conexaoComBanco.Open();
+
+            //cria um comando e relaciona com a conexão aberta
+            SqlCommand comandoExcluir = conexaoComBanco.CreateCommand();
+            comandoExcluir.CommandText = sqlExcluir;
+
+            //adiciona os parâmetros no comando
+            comandoExcluir.Parameters.AddWithValue("ID", registroSelecionado.Id);
+
+            //executa o comando
+            comandoExcluir.ExecuteNonQuery();
+
+            //encerra a conexão
+            conexaoComBanco.Close();
+        }
         public virtual TEntidade SelecionarRegistroPorParametro(string sqlSelecionarPorParametro, SqlParameter[] parametros)
         {
             //obter a conexão com o banco e abrir ela
@@ -148,27 +105,6 @@ namespace GeraTestes.Infra.Sql.Compartilhado
             conexaoComBanco.Close();
 
             return registro;
-        }
-
-
-        public virtual void Excluir(TEntidade registroSelecionado)
-        {
-            //obter a conexão com o banco e abrir ela
-            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
-            conexaoComBanco.Open();
-
-            //cria um comando e relaciona com a conexão aberta
-            SqlCommand comandoExcluir = conexaoComBanco.CreateCommand();
-            comandoExcluir.CommandText = sqlExcluir;
-
-            //adiciona os parâmetros no comando
-            comandoExcluir.Parameters.AddWithValue("ID", registroSelecionado.Id);
-
-            //executa o comando
-            comandoExcluir.ExecuteNonQuery();
-
-            //encerra a conexão
-            conexaoComBanco.Close();
         }
         public virtual TEntidade SelecionarPorId(int id)
         {

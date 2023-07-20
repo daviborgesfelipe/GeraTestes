@@ -10,7 +10,7 @@ namespace GeraTestes.WinApp.ModuloDisciplina
     {
         private IRepositorioDisciplina repositorioDisciplina;
 
-        private ServicoDisciplina servicoMateria;
+        private ServicoDisciplina servicoDisciplina;
 
         private TabelaDisciplinaControl tabelaDisciplina;
         public ControladorDisciplina(
@@ -19,7 +19,7 @@ namespace GeraTestes.WinApp.ModuloDisciplina
             )
         {
             this.repositorioDisciplina = _repositorioDisciplina;
-            this.servicoMateria = _servicoDisciplina;
+            this.servicoDisciplina = _servicoDisciplina;
         }
 
         public override void Excluir()
@@ -35,7 +35,7 @@ namespace GeraTestes.WinApp.ModuloDisciplina
                 return;
             }
 
-            DialogResult opcaoEscolhida = MessageBox.Show("Deseja realmente excluir a disciplina?",
+            DialogResult opcaoEscolhida = MessageBox.Show($"Deseja realmente excluir a disciplina de {disciplinaSelecionada.Nome}?",
                "Exclusão de Disciplinas", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 
             if (opcaoEscolhida == DialogResult.OK)

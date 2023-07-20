@@ -44,7 +44,7 @@ namespace GeraTestes.WinApp.ModuloQuestao
 
             tabelaQuestao.AtualizarRegistros(questoes);
 
-            TelaPrincipalForm.Instancia.AtualizarRodape(string.Format("Visualizando {0} quest{1}", questoes.Count, questoes.Count == 1 ? "ão" : "ões"));
+            TelaPrincipalForm.InstanciaTelaPrincipal.AtualizarRodape(string.Format("Visualizando {0} quest{1}", questoes.Count, questoes.Count == 1 ? "ão" : "ões"));
         }
         public override void Inserir()
         {

@@ -62,7 +62,7 @@ namespace GeraTestes.WinApp.ModuloMateria
             tabelaMaterias.AtualizarRegistros(materias);
             mensagemRodape = string.Format("Visualizando {0} matéria{1}", materias.Count, materias.Count == 1 ? "" : "s");
 
-            TelaPrincipalForm.Instancia.AtualizarRodape(mensagemRodape);
+            TelaPrincipalForm.InstanciaTelaPrincipal.AtualizarRodape(mensagemRodape);
         }
     }
 }

@@ -20,6 +20,14 @@ namespace GeraTestes.Infra.Sql.ModuloMateria
                 INNER JOIN TBDISCIPLINA AS D                     
                     ON MT.DISCIPLINA_ID = D.ID";
 
+        protected override string sqlSelecionarPorId => throw new NotImplementedException();
+
+        protected override string sqlExcluir => throw new NotImplementedException();
+
+        protected override string sqlEditar => throw new NotImplementedException();
+
+        protected override string sqlInserir => throw new NotImplementedException();
+
         #region CRUD
         public void Editar(Materia registro)
         {
