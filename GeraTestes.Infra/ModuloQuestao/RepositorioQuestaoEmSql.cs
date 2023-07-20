@@ -6,9 +6,10 @@ namespace GeraTestes.Infra.Sql.ModuloQuestao
     public class RepositorioQuestaoEmSql : RepositorioEmSqlBase<Questao, MapeadorQuestaoSql>, IRepositorioQuestao
     {
         protected override string sqlSelecionarTodos =>
-        @"SELECT 
+            @"SELECT 
 	                Q.ID            QUESTAO_ID                
 	               ,Q.ENUNCIADO     QUESTAO_ENUNCIADO
+	               ,Q.JAUTILIZADA   QUESTAO_JAUTILIZADA
                    
 	               ,M.ID            MATERIA_ID
 	               ,M.NOME          MATERIA_NOME
@@ -26,6 +27,22 @@ namespace GeraTestes.Infra.Sql.ModuloQuestao
                     INNER JOIN TBDISCIPLINA D 
                         ON D.ID = M.DISCIPLINA_ID";
 
+        protected override string sqlInserir =>
+              @"INSERT INTO [TBQUESTAO]
+                (
+                    [ENUNCIADO]
+                   ,[JAUTILIZADA]
+                   ,[MATERIA_ID]
+	            )
+	            VALUES
+                (
+                    @ENUNCIADO
+                   ,@JAUTILIZADA
+                   ,@MATERIA_ID
+                );
+                
+                SELECT SCOPE_IDENTITY();";
+
         public void Editar(Questao registro)
         {
             throw new NotImplementedException();
@@ -35,12 +52,6 @@ namespace GeraTestes.Infra.Sql.ModuloQuestao
         {
             throw new NotImplementedException();
         }
-
-        public void Inserir(Questao novoRegistro)
-        {
-            throw new NotImplementedException();
-        }
-
         public Questao SelecionarPorId(int id)
         {
             throw new NotImplementedException();
