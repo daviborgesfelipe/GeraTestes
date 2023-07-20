@@ -41,6 +41,13 @@ namespace GeraTestes.WinApp.ModuloQuestao
 
                 new DataGridViewTextBoxColumn 
                 { 
+                    Name = "JaUtilizada",
+                    HeaderText = "Já foi utilizada?",
+                    FillWeight=20F
+                },
+
+                new DataGridViewTextBoxColumn 
+                { 
                     Name = "Materia.Nome", 
                     HeaderText = "Matéria",
                     FillWeight=25F 
@@ -63,7 +70,9 @@ namespace GeraTestes.WinApp.ModuloQuestao
 
             foreach (var questao in questoes)
             {
-                tabelaQuestao.Rows.Add(questao.Id, questao.Enunciado, questao?.Materia?.Nome, questao.Materia?.Disciplina?.Nome);
+                string stituacao = questao.JaUtilizada ? "Indisponível :-|" : "Disponível para uso :-)";
+
+                tabelaQuestao.Rows.Add(questao.Id, questao.Enunciado, stituacao, questao?.Materia?.Nome, questao.Materia?.Disciplina?.Nome);
             }
         }
     }
