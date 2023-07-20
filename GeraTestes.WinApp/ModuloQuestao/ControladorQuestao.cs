@@ -48,7 +48,20 @@ namespace GeraTestes.WinApp.ModuloQuestao
         }
         public override void Inserir()
         {
-            throw new NotImplementedException();
+            List<Disciplina> disciplinas = repositorioDisciplina.SelecionarTodos(incluirMaterias: true);
+
+            TelaCadastroQuestaoForm tela = new TelaCadastroQuestaoForm(disciplinas);
+
+            tela.onGravarRegistro += servicoQuestao.Inserir;
+
+            tela.ConfigurarQuestao(new Questao());
+
+            DialogResult resultado = tela.ShowDialog();
+
+            if (resultado == DialogResult.OK)
+            {
+                CarregarQuestoes();
+            }
         }
 
         public override void Excluir()
