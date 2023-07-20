@@ -8,7 +8,7 @@ namespace GeraTestes.WinApp.ModuloQuestao
     public partial class TelaCadastroQuestaoForm : Form
     {
         private Questao questao;
-
+        public event GravarRegistroDelegate<Questao> onGravarRegistro;
         public TelaCadastroQuestaoForm(List<Disciplina> disciplinas)
         {
             InitializeComponent();
@@ -57,6 +57,7 @@ namespace GeraTestes.WinApp.ModuloQuestao
             {
                 cmbMaterias.Items.Add(item);
             }
+            cmbMaterias.DisplayMember = "Name";
         }
         private void CarregarDisciplina(List<Disciplina> disciplinas)
         {
@@ -65,6 +66,7 @@ namespace GeraTestes.WinApp.ModuloQuestao
             {
                 cmbDisciplinas.Items.Add(item);
             }
+            cmbDisciplinas.DisplayMember = "Nome";
         }
         private void RecarregarAlternativas()
         {
@@ -79,6 +81,57 @@ namespace GeraTestes.WinApp.ModuloQuestao
                     listAlternativas.SetItemChecked(i, true);
 
                 i++;
+            }
+        }
+
+        internal void ConfigurarQuestao(Questao questao)
+        {
+            this.questao = questao;
+
+            txtId.Text = questao.Id.ToString();
+            txtEnunciado.Text = questao.Enunciado;
+            cmbDisciplinas.SelectedItem = questao.Materia?.Disciplina;
+            cmbMaterias.SelectedItem = questao.Materia;
+            chkJaUtilizada.Checked = questao.JaUtilizada;
+
+            RecarregarAlternativas();
+        }
+        public Questao ObterQuestao()
+        {
+            questao.Id = Convert.ToInt32(txtId.Text);
+            questao.Enunciado = txtEnunciado.Text;
+            questao.Materia = (Materia)cmbMaterias.SelectedItem;
+            questao.JaUtilizada = chkJaUtilizada.Checked;
+
+            int i = 0;
+            foreach (var item in listAlternativas.Items)
+            {
+                Alternativa a = (Alternativa)item;
+
+                if (listAlternativas.GetItemChecked(i))
+                    a.Correta = true;
+                else
+                    a.Correta = false;
+
+                i++;
+            }
+
+            return questao;
+        }
+
+        private void btnGravar_Click(object sender, EventArgs e)
+        {
+            this.questao = ObterQuestao();
+
+            Result resultado = onGravarRegistro(questao);
+
+            if (resultado.IsFailed)
+            {
+                string erro = resultado.Errors[0].Message;
+
+                TelaPrincipalForm.Instancia.AtualizarRodape(erro);
+
+                DialogResult = DialogResult.None;
             }
         }
     }
