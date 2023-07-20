@@ -38,5 +38,15 @@ namespace GeraTestes.Dominio.ModuloDisciplina
         {
             return HashCode.Combine(Id, Nome);
         }
+
+        public bool AdicionarMateria(Materia materia)
+        {
+            if (Materias.Contains(materia))
+                return false;
+
+            Materias.Add(materia);
+
+            return true;
+        }
     }
 }
