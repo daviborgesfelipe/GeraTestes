@@ -1,5 +1,9 @@
 ﻿using GeraTestes.Dominio.ModuloDisciplina;
+using GeraTestes.Dominio.ModuloMateria;
+using GeraTestes.Dominio.ModuloQuestao;
 using GeraTestes.Infra.Sql.Compartilhado;
+using GeraTestes.Infra.Sql.ModuloMateria;
+using GeraTestes.Infra.Sql.ModuloQuestao;
 
 namespace GeraTestes.Infra.Sql.ModuloDisciplina
 {
@@ -13,6 +17,33 @@ namespace GeraTestes.Infra.Sql.ModuloDisciplina
 
 	            FROM 
 		            [TBDISCIPLINA]";
+
+        protected override string sqlInserir => throw new NotImplementedException();
+
+        private string sqlSelecionarMateriasDaDisciplina =>
+            @"SELECT 
+		            [ID]        MATERIA_ID 
+		           ,[NOME]      MATERIA_NOME
+                   ,[SERIE]     MATERIA_SERIE
+
+	            FROM 
+		            [TBMATERIA]
+
+		        WHERE
+                    [DISCIPLINA_ID] = @DISCIPLINA_ID";
+
+        private string sqlSelecionarQuestoesDaMateria =>
+            @"SELECT 
+
+		            [ID]            QUESTAO_ID
+		           ,[ENUNCIADO]     QUESTAO_ENUNCIADO
+	               ,[JAUTILIZADA]   QUESTAO_JAUTILIZADA                        
+
+	            FROM 
+		            [TBQUESTAO]
+
+		        WHERE
+                    [MATERIA_ID] = @MATERIA_ID AND [JAUTILIZADA] = 0";
 
         public void Editar(Disciplina registro)
         {
@@ -41,40 +72,55 @@ namespace GeraTestes.Infra.Sql.ModuloDisciplina
 
         #endregion
 
-        public virtual List<Disciplina> SelecionarTodos()
+        public List<Disciplina> SelecionarTodos(bool incluirMaterias = false, bool incluirQuestoes = false)
         {
-            //obter a conexão com o banco e abrir ela
-            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
-            conexaoComBanco.Open();
+            List<Disciplina> disciplinas = base.SelecionarTodos();
 
-            //cria um comando e relaciona com a conexão aberta
-            SqlCommand comandoSelecionarTodos = conexaoComBanco.CreateCommand();
-            comandoSelecionarTodos.CommandText = sqlSelecionarTodos;
-
-            //executa o comando
-            SqlDataReader leitorItens = comandoSelecionarTodos.ExecuteReader();
-
-            List<Disciplina> registros = new List<Disciplina>();
-
-            MapeadorDisciplinaSql mapeador = new MapeadorDisciplinaSql();
-
-            while (leitorItens.Read())
+            if (incluirMaterias)
             {
-                Disciplina registro = mapeador.ConverterRegistro(leitorItens);
+                foreach (Disciplina disciplina in disciplinas)
+                {
+                    CarregarMaterias(disciplina);
 
-                if (registro != null)
-                    registros.Add(registro);
+                    if (incluirQuestoes)
+                    {
+                        foreach (Materia materia in disciplina.Materias)
+                        {
+                            CarregarQuestoes(materia);
+                        }
+                    }
+                }
             }
 
-            //encerra a conexão
-            conexaoComBanco.Close();
-
-            return registros;
+            return disciplinas;
         }
 
-        //public List<Disciplina> SelecionarTodos(bool incluirMaterias = false, bool incluirQuestoes = false)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        private void CarregarMaterias(Disciplina disciplina)
+        {
+            MapeadorMateriaSql mapeador = new MapeadorMateriaSql();
+
+            SqlParameter[] parametros = new SqlParameter[] { new SqlParameter("DISCIPLINA_ID", disciplina.Id) };
+
+            List<Materia> materias = SelecionarRegistros(sqlSelecionarMateriasDaDisciplina, mapeador.ConverterRegistro, parametros);
+
+            foreach (Materia materia in materias)
+            {
+                disciplina.AdicionarMateria(materia);
+            }
+        }
+
+        private void CarregarQuestoes(Materia materia)
+        {
+            MapeadorQuestaoSql mapeador = new MapeadorQuestaoSql();
+
+            SqlParameter[] parametros = new SqlParameter[] { new SqlParameter("MATERIA_ID", materia.Id) };
+
+            List<Questao> questoes = SelecionarRegistros(sqlSelecionarQuestoesDaMateria, mapeador.ConverterRegistro, parametros);
+
+            foreach (Questao questao in questoes)
+            {
+                materia.AdicionaQuestao(questao);
+            }
+        }
     }
 }
