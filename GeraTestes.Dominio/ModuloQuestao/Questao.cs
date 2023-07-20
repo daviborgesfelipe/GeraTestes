@@ -9,12 +9,30 @@ namespace GeraTestes.Dominio.ModuloQuestao
         public List<Alternativa> Alternativas { get; set; }
         public string Enunciado { get; set; }
         public Materia Materia { get; set; }
+        public bool JaUtilizada { get; set; }
 
-        public Questao(int id, string enunciado, Materia materia)
+        public Questao()
         {
-            Id = id;
+            Alternativas = new List<Alternativa>();
+        }
+
+        public Questao(string enunciado, Materia materia) : this()
+        {
             Enunciado = enunciado;
             Materia = materia;
+            JaUtilizada = false;
+        }
+
+        public Questao(string enunciado, Materia materia, bool jaUtilizada) : this()
+        {
+            Enunciado = enunciado;
+            Materia = materia;
+            JaUtilizada = jaUtilizada;
+        }
+
+        public Questao(int id, string enunciado, Materia materia, bool jaUtilizada) : this(enunciado, materia, jaUtilizada)
+        {
+            Id = id;
         }
 
         public bool AdicionarAlternativa(Alternativa alternativa)
