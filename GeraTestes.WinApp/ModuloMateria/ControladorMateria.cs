@@ -54,7 +54,33 @@ namespace GeraTestes.WinApp.ModuloMateria
         }
         public override void Excluir()
         {
-            throw new NotImplementedException();
+            int id = tabelaMaterias.ObtemIdSelecionado();
+
+            Materia materiaSelecionada = repositorioMateria.SelecionarPorId(id);
+
+            if (materiaSelecionada == null)
+            {
+                MessageBox.Show("Selecione uma matéria primeiro",
+                "Exclusão de Matérias", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            DialogResult opcaoEscolhida = MessageBox.Show($"Deseja realmente excluir a matéria de {materiaSelecionada.Nome}?",
+               "Exclusão de Materias", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+            if (opcaoEscolhida == DialogResult.OK)
+            {
+                Result resultado = servicoMateria.Excluir(materiaSelecionada);
+
+                if (resultado.IsFailed)
+                {
+                    MessageBox.Show(resultado.Errors[0].Message, "Exclusão de Matérias", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    return;
+                }
+
+                CarregarMaterias();
+            }
         }
 
         public override void Inserir()

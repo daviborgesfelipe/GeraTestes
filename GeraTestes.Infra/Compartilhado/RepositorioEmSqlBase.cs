@@ -14,6 +14,7 @@ namespace GeraTestes.Infra.Sql.Compartilhado
             @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=GeradorTesteDb;Integrated Security=True";
 
         protected abstract string sqlInserir { get; }
+        protected abstract string sqlExcluir { get; }
         protected abstract string sqlSelecionarTodos { get; }
         protected abstract string sqlEditar { get; }
         protected abstract string sqlSelecionarPorId { get; }
@@ -176,9 +177,24 @@ namespace GeraTestes.Infra.Sql.Compartilhado
 
             return registro;
         }
-        public void Excluir(TEntidade registro)
+        public virtual void Excluir(TEntidade registroSelecionado)
         {
-            throw new NotImplementedException();
+            //obter a conexão com o banco e abrir ela
+            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
+            conexaoComBanco.Open();
+
+            //cria um comando e relaciona com a conexão aberta
+            SqlCommand comandoExcluir = conexaoComBanco.CreateCommand();
+            comandoExcluir.CommandText = sqlExcluir;
+
+            //adiciona os parâmetros no comando
+            comandoExcluir.Parameters.AddWithValue("ID", registroSelecionado.Id);
+
+            //executa o comando
+            comandoExcluir.ExecuteNonQuery();
+
+            //encerra a conexão
+            conexaoComBanco.Close();
         }
     }
 }

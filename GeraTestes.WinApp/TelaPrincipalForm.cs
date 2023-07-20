@@ -142,5 +142,10 @@ namespace GeraTestes.WinApp
         {
             controlador.Editar();
         }
+
+        private void btnExcluir_Click(object sender, EventArgs e)
+        {
+            controlador.Excluir();
+        }
     }
 }
